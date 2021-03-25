@@ -1,0 +1,9 @@
+.btndark{
+    background-color:#000000;
+    color: white;
+}
+.panel-body
+{
+    height: 250px;
+    background-color: #ede8e8;
+}

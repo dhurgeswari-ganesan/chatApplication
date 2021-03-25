@@ -1,0 +1,76 @@
+<div class="container" style="width:200%;height:500%">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="panel" >
+        <div class="panel-heading" style="background-color: #827d7d80;border-color: #827d7d80;" >
+          <span class="glyphicon glyphicon-comment"></span><strong> {{ chatingUser.nickname }} - {{chatingUser.room}}</strong>
+          <div class="btn-group pull-right">
+            <button type="button" class="btn btn-default btn-xs" (click)="logout()">
+              Logout
+            </button>
+          </div>
+        </div>
+        
+       
+        <div #scrollMe class="panel-body">
+          <ul class="list-group" style="width:20%;float:left">
+            <li class="list-group-item" [style.visibility]="c.nickname !== chatingUser.nickname && c.message !== 'Left this room' ? 'visible' : 'hidden'" *ngFor="let c of userlist">
+              <div class="left clearfix" *ngIf="c.nickname !== chatingUser.nickname && c.message !== 'Left this room'  ">
+                <a style="cursor:pointer;text-decoration: none;" (click)="getChatByUser(c.nickname,chatingUser.nickname,c.room)"><strong class="primary-font" style="font-size: 15px;">{{ c.nickname }}</strong> </a>
+              </div>
+              
+            </li>
+          </ul>
+            <ul class="chat" style="width:80%;float:right">
+             <p *ngIf="clickedUser" style="background-color: grey;"><b> <strong>{{ msgData.createdTo }} - {{chatingUser.room}}</strong></b></p>
+                        <li *ngFor="let c of ChatByUser">
+                             
+                        <div class="left clearfix" *ngIf="c.nickname===chatingUser.nickname; else rightchat">
+                            <span class="chat-img pull-left">
+                              <img src="http://placehold.it/50/FA6F57/fff&text=U" alt="User Avatar" class="img-circle" />
+                            </span>
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <strong class="primary-font">you -  {{ c.nickname }}</strong> <small class="pull-right text-muted">
+                                        <span class="glyphicon glyphicon-time"></span>{{ c.updated_at | date: 'medium' }}</small>
+                                </div>
+                                <p>{{ c.message }}</p>
+                            </div>
+                          </div>
+                          <ng-template #rightchat>
+                            <div class="right clearfix">
+                              <span class="chat-img pull-right">
+                                <img src="http://placehold.it/50/55C1E7/fff&text=ME" alt="User Avatar" class="img-circle" />
+                              </span>
+                              <div class="chat-body clearfix">
+                                  <div class="header">
+                                      <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>{{ c.updated_at | date: 'medium' }}</small>
+                                      <strong class="pull-right primary-font">{{ c.nickname }}</strong>
+                                  </div>
+                                  <p>{{ c.message }}</p>
+                              </div>
+                            </div>
+                          </ng-template> 
+                        </li>
+                    </ul>
+        </div>
+        <div class="panel-footer">
+          <form (ngSubmit)="sendMessage()" #msgForm="ngForm">
+            <div class="input-group">
+              <input type="hidden" [(ngModel)]="msgData.room" name="room" />
+              <input type="hidden" [(ngModel)]="msgData.nickname" name="nickname" />
+              <input id="btn-input" type="text" [(ngModel)]="msgData.message" name="message"
+                class="form-control input-sm" placeholder="Type your message here..." required="" />
+              <span class="input-group-btn">
+                <button class="btn btn-warning btn-sm" id="btn-chat" [disabled]="!msgForm.form.valid">
+                  Send</button>
+              </span>
+            </div>
+          </form>
+        </div>
+      </div>
+    
+
+    </div>
+  </div>
+</div>
